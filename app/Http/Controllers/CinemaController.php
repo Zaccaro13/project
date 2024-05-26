@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Services\CinemaService;
+use App\Models\Cinema;
+use http\Env\Request;
 use function PHPUnit\Framework\isEmpty;
 
 class CinemaController
@@ -13,38 +15,49 @@ class CinemaController
     }
     public function listOfCinemas()
     {
-        dd($this->cinemaService->findAll());
+        $cinemaList = $this->cinemaService->findAll();
+        if (!$cinemaList) {
+            abort(404, 'Cinemas not found');
+        }
+        return view('cinema.listOfCinemas', compact('cinemaList'));
     }
 
-    public function cinemaInfo($name)
+    public function cinemaInfo($id)
     {
-        $cinema = $this->cinemaService->findByName($name);
+        $cinema = $this->cinemaService->findById($id);
 
         if (!$cinema) {
-            return response()->json(['error' => 'Cinema not found'], 404);
+            abort(404, 'Cinema not found');
         }
 
-        return response()->json($cinema);
+        return view('cinemaInfo', compact('cinema'));
     }
 
 
 
-    public function createCinema($cinema) //POST MAPPING
+    public function createCinema() //GET MAPPING
     {
+        $genreList = $this->cinemaService->findAllGenres();
+        return view('cinema.createCinema', compact('genreList'));
+    }
+
+    public function storeCinema(Request $request) //POST MAPPING
+    {
+        $cinema = $request->all();
         $this->cinemaService->create($cinema);
-        return view('createCinema');
+        return redirect()->route('/cinema/listOfCinemas');
     }
 
     public function editCinema($cinema)
     {
         $this->cinemaService->update($cinema);
-        return view('editCinema');
+        return view('cinema.editCinema');
     }
 
     public function deleteCinema($id)
     {
         $this->cinemaService->delete($id);
-        dd('deleted');
+        return view('cinema.listOfCinemas');
     }
 
     public function restoreCinema($id)

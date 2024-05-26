@@ -6,7 +6,7 @@ class Controller
 {
     public function mainPage()
     {
-        return 'HELLO BUDDIES';
+        return view('main');
     }
 
     public function infoAboutMe()

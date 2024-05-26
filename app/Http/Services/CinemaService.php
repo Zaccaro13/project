@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Services;
+use App\Models\Genre;
 use Illuminate\Database\Eloquent\Collection;
 use App\Models\Cinema;
 
@@ -9,6 +10,11 @@ class CinemaService
     public function findAll(): Collection
     {
         return Cinema::all();
+    }
+
+    public function findAllGenres(): Collection
+    {
+        return Genre::all();
     }
 
     public function create(Cinema $cinema): Cinema {
@@ -20,9 +26,9 @@ class CinemaService
         return $updatedCinema->update($cinema);
     }
 
-    public function findByName(string $name) : Cinema
+    public function findById(string $id) : ?Cinema
     {
-        return Cinema::where('name', $name)->first();
+        return Cinema::where('id', $id)->first();
     }
     public function delete(int $id)
     {

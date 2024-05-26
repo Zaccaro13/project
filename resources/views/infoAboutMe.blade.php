@@ -5,7 +5,8 @@
     <title>Title</title>
 </head>
 <body>
+@include('layouts.header')
 <h1>Creator: Eugene Holub 317sk group</h1>
-<a href="mailto:yevhenii.holub@chnu.edu.ua"></a>
+
 </body>
 </html>
