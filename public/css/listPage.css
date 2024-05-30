@@ -1,59 +1,90 @@
-body {
-font-family: Arial, sans-serif;
-background-color: #f4f4f4;
-margin: 0;
-padding: 20px;
-}
-
 .container {
-display: flex;
-flex-wrap: wrap;
-gap: 20px;
-justify-content: center;
-}
-
-.movie-item {
-background-color: #fff;
-border-radius: 8px;
-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-overflow: hidden;
-width: 200px;
-text-align: center;
-}
-
-.movie-rating {
-background-color: #17a2b8;
-color: white;
-padding: 5px;
-font-size: 14px;
-}
-
-.movie-item img {
-width: 100%;
-height: auto;
-}
-
-.movie-info {
-padding: 10px;
-}
-
-.movie-info h3 {
-font-size: 16px;
-margin: 10px 0;
-}
-
-.movie-info p {
-color: #666;
-font-size: 14px;
-margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
 }
 
 .content-container {
-    max-width: 1500px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
     margin: 30px auto 50px;
+    max-width: 1500px;
     padding: 20px;
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.movie-item {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    width: calc(33.333% - 20px);
+    box-sizing: border-box;
+    margin: 5px;
     text-align: center;
 }
+
+.movie-item img {
+    width: 100%;
+    height: auto;
+}
+
+.movie-rating {
+    background-color: #17a2b8;
+    color: white;
+    padding: 5px;
+    font-size: 14px;
+}
+
+.movie-info {
+    padding: 10px;
+}
+
+.movie-info h3 {
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+.movie-info p {
+    color: #666;
+    font-size: 14px;
+    margin: 0;
+}
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+.pagination {
+    position: fixed; /* фиксированное положение */
+    bottom: 0; /* прижимаем к нижней границе */
+    left: 50%; /* смещаем на половину ширины родительского контейнера */
+    transform: translateX(-50%); /* центрируем по горизонтали */
+    background-color: #fff; /* цвет фона */
+    padding: 10px 20px; /* отступы внутри */
+    border-top: 1px solid #ccc; /* граница сверху */
+    width: 100%; /* занимаем всю ширину */
+    box-sizing: border-box; /* учитываем padding в ширине */
+    z-index: 999; /* поднимаем над остальным контентом */
+}
+.tabs-container {
+    position: relative;
+}
+
+.pagination {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #fff;
+    padding: 10px 20px;
+    border-top: 1px solid #ccc;
+    width: 100%;
+    box-sizing: border-box;
+    z-index: 999;
+}
+

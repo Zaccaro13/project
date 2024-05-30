@@ -2,15 +2,11 @@
 
 namespace App\Http\Controllers;
 
-class Controller
-{
-    public function mainPage()
-    {
-        return view('main');
-    }
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Routing\Controller as BaseController;
 
-    public function infoAboutMe()
-    {
-        return view('infoAboutMe');
-    }
+class Controller extends BaseController
+{
+    use AuthorizesRequests, ValidatesRequests;
 }

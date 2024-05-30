@@ -1,0 +1,31 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::table('cinemas', function (Blueprint $table) {
+            $table->unsignedBigInteger('genre_id')->nullable()->after('producer');
+            $table->index('genre_id', 'cinema_genre_idx');
+            $table->foreign('genre_id')->references('cinema_genre_fk')->on('genres')->references('id');
+            $table->dropColumn('genre');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::table('cinemas', function (Blueprint $table) {
+            $table->dropColumn('genre_id');
+        });
+    }
+};

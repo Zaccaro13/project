@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Services\CinemaService;
 use App\Models\Cinema;
-use http\Env\Request;
+use App\Models\Genre;
+use Illuminate\Http\Request;
 use function PHPUnit\Framework\isEmpty;
 
 class CinemaController
@@ -41,23 +42,45 @@ class CinemaController
         return view('cinema.createCinema', compact('genreList'));
     }
 
-    public function storeCinema(Request $request) //POST MAPPING
+    public function storeCinema(Request $request)
     {
-        $cinema = $request->all();
-        $this->cinemaService->create($cinema);
-        return redirect()->route('/cinema/listOfCinemas');
+        $cinema = new Cinema();
+        // Теперь передаем массив атрибутов в метод create
+        if ($request->hasFile('photo')) {
+            $path = $request->file('photo')->store('images', 'public');
+            $fileName = str_replace('public//', '', $path);
+            $cinema->photo = $fileName;  // Сохранение пути к изображению в базу данных
+        }
+        $this->cinemaService->create($request);
+        return redirect()->route('cinema.listOfCinemas');
     }
 
-    public function editCinema($cinema)
+    public function editCinema(string $id) //GET MAPPING
     {
-        $this->cinemaService->update($cinema);
-        return view('cinema.editCinema');
+        $cinema = $this->cinemaService->findById($id);
+        if (!$cinema) {
+            return redirect()->back()->with('error', 'Cinema not found');
+        }
+        $genreList = $this->cinemaService->findAllGenres();
+        return view('cinema.editCinema', compact('cinema', 'genreList'));
+    }
+
+    public function storeEditedCinema(Request $request, $id) //POST MAPPING
+    {
+        $this->cinemaService->storeUpdated($request, $id);
+        return redirect()->route('cinema.listOfCinemas')->with('success', 'Cinema updated successfully');
     }
 
     public function deleteCinema($id)
     {
         $this->cinemaService->delete($id);
-        return view('cinema.listOfCinemas');
+        return redirect()->route('cinema.listOfCinemas');
+    }
+
+    public function findAllCinemasByGenre($id)
+    {
+        $genre = Genre::find($id);
+        $listOfCinemas = $genre->cinemas;
     }
 
     public function restoreCinema($id)

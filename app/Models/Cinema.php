@@ -10,5 +10,10 @@ class Cinema extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    protected $guarded = [];
     protected $table = 'cinemas';
+    public function genre()
+    {
+        return $this->belongsTo(Genre::class, 'genre_id', 'id');
+    }
 }
