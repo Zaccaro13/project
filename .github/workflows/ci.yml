@@ -1,0 +1,32 @@
+name: Laravel CI
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Установка PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2'
+        extensions: mbstring, xml, ctype, json, tokenizer, bcmath, fileinfo
+        tools: composer:v2
+
+    - name: Кеш composer
+      uses: actions/cache@v3
+      with:
+        path: vendor
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: ${{ runner.os }}-composer-
+
+    - name: Установка залежностей
+      run: composer install --prefer-dist --no-progress --no-suggest
+
+    - name: Запуск тестов
+      run: php artisan test
